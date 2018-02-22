@@ -1,29 +1,27 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Provider } from "mobx-react/native";
+import {Store} from "./store";
 
 import LoginView from './js/LoginView';
+import HomeView from './js/HomeView';
+import ChatView from './js/ChatView';
 
-class HomeScreen extends React.Component {
-  render() {
-    const { navigate } = this.props.navigation;
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Barrio App</Text>
-        <Button
-          title="Go to LoginView"
-          onPress={() =>
-            navigate('LoginView', { name: 'Jane' })
-          }
-        />
-      </View>
-    );
-  }
-}
 
-export default StackNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-  LoginView: {screen: LoginView}
-});
+const App = StackNavigator(
+	{
+    HomeView: {screen: HomeView},
+    LoginView: {screen: LoginView},
+    ChatView: {screen: ChatView}
+	},
+	{
+		initialRouteName: "LoginView",
+		headerMode: "none",
+	}
+);
+
+export default () => (
+  <Provider store={Store.create()}>
+    <App />
+  </Provider>
+);
